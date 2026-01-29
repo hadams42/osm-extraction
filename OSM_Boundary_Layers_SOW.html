@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OSM to ArcGIS Boundary Layers - Statement of Work</title>
+  <style>
+    :root{
+      --primary:#1a365d;
+      --primary-2:#2c5282;
+      --accent:#c05621;
+      --bg:#ffffff;
+      --bg-soft:#f7fafc;
+      --text:#1f2937;
+      --text-2:#4b5563;
+      --muted:#6b7280;
+      --border:#e5e7eb;
+      --ok:#065f46;
+      --warn:#92400e;
+      --warn-bg:#fef3c7;
+      --shadow: 0 10px 30px rgba(15,23,42,0.08);
+    }
+
+    *{ box-sizing:border-box; margin:0; padding:0; }
+
+    @page { size: letter; margin: 0.75in; }
+    @media print {
+      body { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+      .page-break { page-break-before: always; }
+      .no-print-break { page-break-inside: avoid; }
+      .hide-print { display: none !important; }
+    }
+
+    body{
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+      max-width: 8.5in;
+      margin: 0 auto;
+      padding: 0.5in;
+    }
+
+    .header{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      border-bottom: 3px solid var(--primary);
+      padding-bottom: 1rem;
+      margin-bottom: 1.75rem;
+      gap: 1rem;
+    }
+    .header .brand{
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      font-size: 0.82rem;
+      color: var(--primary);
+      text-transform: uppercase;
+    }
+    .header .meta{
+      text-align:right;
+      font-size: 0.85rem;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:0.5rem;
+      border:1px solid var(--border);
+      background: var(--bg-soft);
+      padding: 0.35rem 0.6rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      color: var(--text-2);
+    }
+
+    .title{
+      text-align:center;
+      margin: 0.75rem 0 1.75rem;
+    }
+    .title h1{
+      font-size: 2.05rem;
+      line-height: 1.2;
+      color: var(--primary);
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+    .title .subtitle{
+      margin-top: 0.4rem;
+      color: var(--accent);
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+    }
+    .title .tagline{
+      margin-top: 0.6rem;
+      color: var(--muted);
+      font-style: italic;
+      font-size: 0.98rem;
+    }
+
+    .hero{
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-2) 100%);
+      color: #fff;
+      padding: 1.4rem 1.6rem;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      margin-bottom: 1.25rem;
+    }
+    .hero h2{
+      font-size: 1.15rem;
+      font-weight: 800;
+      margin-bottom: 0.55rem;
+      letter-spacing: 0.01em;
+    }
+    .hero p{
+      opacity: 0.96;
+      font-size: 0.98rem;
+    }
+
+    h2{
+      font-size: 1.25rem;
+      font-weight: 900;
+      color: var(--primary);
+      margin: 1.5rem 0 0.8rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--border);
+    }
+    h3{
+      font-size: 1.03rem;
+      font-weight: 850;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .grid-2{ display:grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .grid-3{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+    .card{
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #fff;
+      padding: 1rem;
+      box-shadow: 0 4px 14px rgba(15,23,42,0.06);
+    }
+    .card.soft{
+      background: var(--bg-soft);
+      box-shadow: none;
+    }
+    .card.accent{
+      border-left: 5px solid var(--accent);
+    }
+    .mini{
+      font-size: 0.9rem;
+      color: var(--text-2);
+    }
+    .muted{ color: var(--muted); }
+
+    .stats .value{
+      font-size: 1.7rem;
+      font-weight: 900;
+      color: var(--primary);
+      letter-spacing: -0.02em;
+    }
+    .stats .label{
+      margin-top: 0.2rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .list{
+      list-style: none;
+      padding-left: 0;
+      margin-top: 0.25rem;
+    }
+    .list li{
+      padding: 0.55rem 0;
+      border-bottom: 1px solid var(--border);
+      padding-left: 1.6rem;
+      position: relative;
+      font-size: 0.95rem;
+      color: var(--text);
+    }
+    .list li:last-child{ border-bottom: none; }
+    .list li::before{
+      content:"✓";
+      position:absolute;
+      left:0;
+      top: 0.52rem;
+      color: var(--accent);
+      font-weight: 900;
+    }
+
+    .callout{
+      border: 1px solid #f0e68c;
+      background: var(--warn-bg);
+      border-radius: 10px;
+      padding: 0.95rem 1.1rem;
+      margin: 1rem 0;
+    }
+    .callout h4{
+      font-size: 0.95rem;
+      color: var(--warn);
+      font-weight: 900;
+      margin-bottom: 0.35rem;
+    }
+    .callout p{ color: var(--warn); font-size: 0.9rem; }
+
+    .timeline{
+      display:flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      margin-top: 0.25rem;
+    }
+    .t-item{
+      display:grid;
+      grid-template-columns: 140px 1fr;
+      gap: 1rem;
+      align-items: start;
+    }
+    .t-tag{
+      background: var(--primary);
+      color:#fff;
+      border-radius: 8px;
+      padding: 0.55rem 0.65rem;
+      font-weight: 900;
+      text-align:center;
+      font-size: 0.8rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      box-shadow: 0 8px 18px rgba(26,54,93,0.2);
+    }
+    .t-body{
+      padding-bottom: 0.9rem;
+      border-bottom: 1px dashed var(--border);
+    }
+    .t-body:last-child{ border-bottom: none; padding-bottom: 0; }
+    .t-title{
+      display:flex;
+      align-items:baseline;
+      justify-content: space-between;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .t-title h4{
+      font-size: 1rem;
+      font-weight: 900;
+      color: var(--text);
+    }
+    .t-title .cost{
+      font-size: 0.95rem;
+      color: var(--accent);
+      font-weight: 900;
+      white-space: nowrap;
+    }
+    .t-body p{
+      margin-top: 0.3rem;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+    .t-body ul{
+      margin-top: 0.55rem;
+      padding-left: 1.05rem;
+      color: var(--text-2);
+      font-size: 0.92rem;
+    }
+    .t-body li{ margin: 0.25rem 0; }
+
+    .budget-grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 0.75rem;
+    }
+    .budget-box{
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1rem;
+      text-align:center;
+    }
+    .budget-box .kicker{
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 0.35rem;
+      font-weight: 800;
+    }
+    .budget-box .amount{
+      font-size: 1.8rem;
+      color: var(--primary);
+      font-weight: 950;
+      letter-spacing: -0.02em;
+    }
+    .budget-box .hours{
+      margin-top: 0.15rem;
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+    .budget-note{
+      text-align:center;
+      margin-top: 0.8rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    table{
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 0.75rem;
+      font-size: 0.92rem;
+    }
+    th, td{
+      border: 1px solid var(--border);
+      padding: 0.65rem 0.6rem;
+      vertical-align: top;
+    }
+    th{
+      background: var(--bg-soft);
+      text-align:left;
+      font-weight: 900;
+      color: var(--primary);
+    }
+    td small{ color: var(--muted); }
+    .right{ text-align:right; white-space: nowrap; }
+
+    .footer{
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 2px solid var(--border);
+      text-align:center;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    @media (max-width: 840px){
+      body{ padding: 1rem; max-width: 100%; }
+      .grid-2, .grid-3{ grid-template-columns: 1fr; }
+      .t-item{ grid-template-columns: 1fr; }
+      .header{ flex-direction: column; align-items: flex-start; }
+      .header .meta{ text-align:left; white-space: normal; }
+      .budget-grid{ grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div>
+      <div class="brand">OSM Boundary Layers Program</div>
+      <div style="margin-top:0.35rem;">
+        <span class="pill"><strong>Statement of Work</strong> • OSM → GeoJSON → ArcGIS Online</span>
+      </div>
+    </div>
+    <div class="meta">
+      <div><strong>Date:</strong> Jan 29, 2026</div>
+      <div><strong>Contractor rate:</strong> $85/hour</div>
+    </div>
+  </div>
+
+  <div class="title">
+    <h1>Authoritative Administrative Boundary Layers</h1>
+    <div class="subtitle">Infrastructure + GIS Processing + 30‑Day Support</div>
+    <div class="tagline">Turning planet‑scale OSM boundaries into query‑friendly ArcGIS Online hosted feature layers</div>
+  </div>
+
+  <div class="hero no-print-break">
+    <h2>Executive Summary</h2>
+    <p>
+      This engagement delivers a repeatable, restartable pipeline that converts the <strong>planet OSM PBF</strong> into
+      administrative boundary GeoJSON outputs, then transforms those outputs into an ArcGIS Pro file geodatabase (FGDB)
+      and publishes separate <strong>ArcGIS Online hosted feature layers</strong> suitable for web mapping, analysis, and
+      downstream application integration. The work is organized into two phases:
+      <strong>(1) Infrastructure setup and GIS processing</strong>, and <strong>(2) 30 days of post‑delivery support</strong>.
+    </p>
+  </div>
+
+  <div class="grid-3 stats no-print-break">
+    <div class="card soft">
+      <div class="value">1</div>
+      <div class="label">Automated pipeline</div>
+      <div class="mini muted" style="margin-top:0.35rem;">Restartable stages with checkpoints and synced outputs</div>
+    </div>
+    <div class="card soft">
+      <div class="value">5</div>
+      <div class="label">Hosted boundary layers</div>
+      <div class="mini muted" style="margin-top:0.35rem;">NUTS0–NUTS3 and LAU published separately</div>
+    </div>
+    <div class="card soft">
+      <div class="value">30</div>
+      <div class="label">Days support</div>
+      <div class="mini muted" style="margin-top:0.35rem;">Stabilization, fixes, reruns guidance, and handoff</div>
+    </div>
+  </div>
+
+  <h2>Scope Overview</h2>
+  <div class="grid-2">
+    <div class="card accent no-print-break">
+      <h3>In Scope</h3>
+      <ul class="list">
+        <li><strong>AWS infrastructure as code</strong> for a high‑memory processing host, storage, and permissions</li>
+        <li><strong>Planet OSM → GeoJSON</strong> boundary extraction split by country and administrative level</li>
+        <li><strong>GeoJSON normalization</strong> (GeoJSONSeq <code>.geojsonl</code> → FeatureCollection <code>.geojson</code>) and optional chunking</li>
+        <li><strong>ArcGIS Pro import</strong> to an FGDB per boundary level (NUTS0–3, LAU)</li>
+        <li><strong>Hybrid attribution</strong>: OSM codes → Wikidata crosswalk → GISCO spatial fallback</li>
+        <li><strong>QA/QC + finalization</strong>: geometry repair, dissolve by code, duplicates, metrics, validation</li>
+        <li><strong>Publish to ArcGIS Online</strong> hosted feature layers with metadata and smoke tests</li>
+      </ul>
+    </div>
+    <div class="card no-print-break">
+      <h3>Out of Scope (unless added by change order)</h3>
+      <ul class="list" style="margin-top:0;">
+        <li><strong>Custom web app development</strong> beyond layer publication and basic usability checks</li>
+        <li><strong>Ongoing monthly operations</strong> beyond the defined 30‑day support window</li>
+        <li><strong>Third‑party licensing</strong>, ArcGIS Pro licensing, or ArcGIS Online credit purchases</li>
+        <li><strong>Non‑Europe schemas</strong> outside the NUTS/LAU target model (additional regions can be scoped)</li>
+        <li><strong>Long‑term data governance</strong> program design (policies, stewards, committees)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout no-print-break">
+    <h4>Important Assumptions</h4>
+    <p>
+      The contractor will require access to an AWS account for provisioning and an ArcGIS environment (ArcGIS Pro and
+      ArcGIS Online organization) for publishing. A single reference vintage year for GISCO/NUTS/LAU will be selected and
+      used consistently for attribution and validation.
+    </p>
+  </div>
+
+  <div class="page-break"></div>
+
+  <h2>High‑Level Implementation Plan</h2>
+  <div class="timeline">
+    <div class="t-item no-print-break">
+      <div class="t-tag">Step 1</div>
+      <div class="t-body">
+        <div class="t-title">
+          <h4>Confirm inputs, naming, and reference datasets</h4>
+          <div class="cost">6–10 hrs</div>
+        </div>
+        <p>Lock decisions that prevent rework later (file conventions, GISCO vintage, publishing titles, and field model).</p>
+        <ul>
+          <li>Define input/output folder conventions and AGOL item naming</li>
+          <li>Select GISCO/NUTS/LAU vintage year and obtain reference boundaries</li>
+          <li>Confirm minimum field schema (IDs, names, country, provenance, confidence)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="t-item no-print-break">
+      <div class="t-tag">Step 2</div>
+      <div class="t-body">
+        <div class="t-title">
+          <h4>Infrastructure setup (AWS, security, cost controls)</h4>
+          <div class="cost">18–28 hrs</div>
+        </div>
+        <p>Provision a repeatable environment sized for planet‑scale OSM processing with safe defaults.</p>
+        <ul>
+          <li>Terraform for VPC/Security Group, EC2 (memory‑optimized), EBS, S3, IAM role/policies</li>
+          <li>Bootstrap script to install osmium, Python deps, and attach/mount data volume</li>
+          <li>Operational guardrails (lifecycle cleanup, teardown guidance)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="t-item no-print-break">
+      <div class="t-tag">Step 3</div>
+      <div class="t-body">
+        <div class="t-title">
+          <h4>Planet OSM → GeoJSON boundary pipeline (restartable)</h4>
+          <div class="cost">40–70 hrs</div>
+        </div>
+        <p>Implement a checkpointed pipeline that can resume across interruptions and sync outputs continuously.</p>
+        <ul>
+          <li>Filter administrative boundary relations and extract country polygons</li>
+          <li>Per‑country extraction and per‑level exports (GeoJSONSeq <code>.geojsonl</code>)</li>
+          <li>Orchestrator with <code>checkpoint.json</code>, logging, retries, and periodic S3 sync</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="t-item no-print-break">
+      <div class="t-tag">Step 4</div>
+      <div class="t-body">
+        <div class="t-title">
+          <h4>Normalize & stage GeoJSON for ArcGIS Pro</h4>
+          <div class="cost">16–28 hrs</div>
+        </div>
+        <p>Convert GeoJSONSeq to ArcGIS‑importable FeatureCollections and optionally chunk/merge for large countries.</p>
+        <ul>
+          <li><code>.geojsonl</code> → <code>.geojson</code> FeatureCollection conversion</li>
+          <li>Optional chunking for very large files and repeatable merge strategy</li>
+          <li>Documented staging layout for import runs</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="t-item no-print-break">
+      <div class="t-tag">Step 5</div>
+      <div class="t-body">
+        <div class="t-title">
+          <h4>ArcGIS Pro FGDB build + hybrid NUTS/LAU attribution</h4>
+          <div class="cost">46–78 hrs</div>
+        </div>
+        <p>Create clean, queryable feature classes per level and assign official codes with confidence tracking.</p>
+        <ul>
+          <li>ArcGIS Pro import via JSON To Features into FGDB (one feature class per level)</li>
+          <li>Attribution priority: OSM refs (<code>ref:nuts</code>/<code>ref:lau</code>) → Wikidata crosswalk → GISCO overlap match</li>
+          <li>Record method and match score; flag low‑confidence matches for review</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="t-item no-print-break">
+      <div class="t-tag">Step 6</div>
+      <div class="t-body">
+        <div class="t-title">
+          <h4>QA/QC, dissolve, publish to ArcGIS Online, and smoke tests</h4>
+          <div class="cost">34–56 hrs</div>
+        </div>
+        <p>Finalize geometry and publish hosted layers with consistent metadata and baseline performance checks.</p>
+        <ul>
+          <li>Repair geometry, multipart handling, deduplication, dissolve by code, compute area/perimeter</li>
+          <li>Validate coverage and counts vs GISCO and generate match statistics</li>
+          <li>Publish AGOL items (NUTS0–3, LAU), set sharing, and run query/render smoke tests</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <h2>Deliverables</h2>
+  <div class="grid-2">
+    <div class="card no-print-break">
+      <h3>Data Products</h3>
+      <ul class="list">
+        <li><strong>FGDB workspace</strong> with feature classes: NUTS0, NUTS1, NUTS2, NUTS3, LAU</li>
+        <li><strong>ArcGIS Online hosted feature layers</strong> (one item per level) with metadata and tags</li>
+        <li><strong>Attribution audit fields</strong>: method, confidence score, and reference vintage year</li>
+      </ul>
+    </div>
+    <div class="card no-print-break">
+      <h3>Implementation Assets</h3>
+      <ul class="list">
+        <li><strong>Terraform configuration</strong> for AWS resources and repeatable deployment</li>
+        <li><strong>Pipeline orchestration scripts</strong> with checkpoint/restart logic and S3 sync</li>
+        <li><strong>ArcGIS Pro notebooks/scripts</strong> for import, attribution, QA/QC, and publishing</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Acceptance Criteria</h2>
+  <ul class="list">
+    <li><strong>Hosted layers exist</strong> for NUTS0, NUTS1, NUTS2, NUTS3, and LAU in ArcGIS Online</li>
+    <li><strong>Geometry is valid</strong> and layers render without errors at common web map scales</li>
+    <li><strong>Minimum field schema is present</strong> (IDs, names, country, provenance/method, match score)</li>
+    <li><strong>QA/QC summary produced</strong> (coverage counts, match statistics, and flagged low‑confidence cases)</li>
+  </ul>
+
+  <div class="page-break"></div>
+
+  <h2>Budget (GIS Contractor @ $85/hour)</h2>
+  <div class="card soft no-print-break">
+    <div class="grid-2" style="gap:0.75rem;">
+      <div>
+        <h3 style="margin-bottom:0.25rem;">Phase 1: Infrastructure setup & GIS processing</h3>
+        <div class="mini muted">End‑to‑end pipeline implementation and publication of hosted layers.</div>
+      </div>
+      <div style="text-align:right;">
+        <div class="pill"><strong>Rate:</strong> $85/hr</div>
+      </div>
+    </div>
+
+    <table aria-label="Phase 1 Budget">
+      <thead>
+        <tr>
+          <th>Workstream</th>
+          <th>What’s included</th>
+          <th class="right">Hours (range)</th>
+          <th class="right">Cost (range)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Discovery & design</strong></td>
+          <td>Inputs/outputs, GISCO vintage selection, naming conventions, minimum schema, thresholds</td>
+          <td class="right">6–10</td>
+          <td class="right">$510–$850</td>
+        </tr>
+        <tr>
+          <td><strong>AWS infrastructure</strong></td>
+          <td>Terraform + bootstrap (EC2/EBS/S3/IAM), security posture, cost guardrails</td>
+          <td class="right">18–28</td>
+          <td class="right">$1,530–$2,380</td>
+        </tr>
+        <tr>
+          <td><strong>OSM extraction pipeline</strong></td>
+          <td>Planet processing stages, checkpointing, logs, retries, S3 sync, runbook</td>
+          <td class="right">40–70</td>
+          <td class="right">$3,400–$5,950</td>
+        </tr>
+        <tr>
+          <td><strong>GeoJSON normalization</strong></td>
+          <td>GeoJSONSeq → FeatureCollection conversion, chunk/merge strategy, staging layout</td>
+          <td class="right">16–28</td>
+          <td class="right">$1,360–$2,380</td>
+        </tr>
+        <tr>
+          <td><strong>ArcGIS Pro FGDB + attribution</strong></td>
+          <td>Import to FGDB, OSM ref parsing, Wikidata crosswalk build, GISCO spatial fallback with scoring</td>
+          <td class="right">46–78</td>
+          <td class="right">$3,910–$6,630</td>
+        </tr>
+        <tr>
+          <td><strong>QA/QC + publish</strong></td>
+          <td>Repair/dissolve/dedup, metrics, validation vs GISCO, publish AGOL layers, smoke tests</td>
+          <td class="right">34–56</td>
+          <td class="right">$2,890–$4,760</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <th colspan="2">Phase 1 Total</th>
+          <th class="right">160–270</th>
+          <th class="right">$13,600–$22,950</th>
+        </tr>
+      </tfoot>
+    </table>
+
+    <div class="callout" style="margin-top:0.9rem;">
+      <h4>Pass‑through / platform costs (not contractor labor)</h4>
+      <p>
+        Cloud processing runs will incur AWS charges (compute, storage, and S3). The planning estimate for a typical
+        48–72 hour run is modest (often in the tens to low hundreds of dollars depending on instance type and market),
+        but these costs vary and are billed directly by the platform provider.
+      </p>
+    </div>
+  </div>
+
+  <div class="card soft no-print-break" style="margin-top:1rem;">
+    <h3 style="margin-bottom:0.35rem;">Phase 2: Support for 30 days</h3>
+    <div class="mini muted">Stabilization and operational assistance after Phase 1 delivery.</div>
+
+    <table aria-label="Phase 2 Budget">
+      <thead>
+        <tr>
+          <th>Support scope</th>
+          <th>What’s included</th>
+          <th class="right">Hours (range)</th>
+          <th class="right">Cost (range)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Operational support</strong></td>
+          <td>
+            Triage and fixes for defects, rerun guidance, minor adjustments to thresholds/joins, publishing help, and handoff Q&A.
+            <br /><small>Excludes major new features; those are handled via change order.</small>
+          </td>
+          <td class="right">20–40</td>
+          <td class="right">$1,700–$3,400</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <th colspan="2">Phase 2 Total</th>
+          <th class="right">20–40</th>
+          <th class="right">$1,700–$3,400</th>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <div class="card no-print-break" style="margin-top:1rem;">
+    <h3>Total Contractor Budget Summary</h3>
+    <div class="budget-grid">
+      <div class="budget-box">
+        <div class="kicker">Conservative</div>
+        <div class="amount">$15,300</div>
+        <div class="hours">180 hours (Phase 1: 160 • Phase 2: 20)</div>
+      </div>
+      <div class="budget-box">
+        <div class="kicker">Comprehensive</div>
+        <div class="amount">$26,350</div>
+        <div class="hours">310 hours (Phase 1: 270 • Phase 2: 40)</div>
+      </div>
+    </div>
+    <div class="budget-note">All estimates assume $85/hour and are provided as planning ranges; actuals depend on data conditions and desired confidence thresholds.</div>
+  </div>
+
+  <h2>Project Management & Communications</h2>
+  <div class="grid-2">
+    <div class="card no-print-break">
+      <h3>Cadence</h3>
+      <ul class="list">
+        <li><strong>Kickoff:</strong> confirm goals, access, and GISCO vintage year</li>
+        <li><strong>Weekly updates:</strong> progress summary, risks, and next steps</li>
+        <li><strong>Delivery review:</strong> walkthrough of layers, QA/QC stats, and runbook</li>
+      </ul>
+    </div>
+    <div class="card no-print-break">
+      <h3>Artifacts</h3>
+      <ul class="list">
+        <li><strong>Runbook:</strong> how to deploy, run, resume, and tear down processing</li>
+        <li><strong>Publishing checklist:</strong> metadata, sharing, performance smoke tests</li>
+        <li><strong>QA/QC report:</strong> match method counts, coverage gaps, and flags</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Change Control</h2>
+  <div class="card soft">
+    <div class="mini">
+      Requests that materially expand scope (additional regions, new schemas, extensive manual remediation, or custom application work)
+      will be documented and estimated as a change order before execution.
+    </div>
+  </div>
+
+  <div class="footer">
+    <div><strong>OSM Boundary Layers Program</strong> • Statement of Work</div>
+    <div style="margin-top:0.35rem;"><em>Prepared Jan 29, 2026</em></div>
+  </div>
+</body>
+</html>

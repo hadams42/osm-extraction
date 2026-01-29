@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Map View - Executive Summary</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Sans+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a365d;
+            --accent: #c05621;
+            --light-bg: #f7fafc;
+            --text: #2d3748;
+            --text-light: #718096;
+            --border: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @page {
+            size: letter;
+            margin: 0.75in;
+        }
+
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            .page-break {
+                page-break-before: always;
+            }
+            .no-print-break {
+                page-break-inside: avoid;
+            }
+        }
+
+        body {
+            font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text);
+            line-height: 1.6;
+            background: white;
+            max-width: 8.5in;
+            margin: 0 auto;
+            padding: 0.5in;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .header-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.9rem;
+            color: var(--primary);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .header-date {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        /* Title Section */
+        .title-section {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .title-section h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .title-section .subtitle {
+            font-size: 1.1rem;
+            color: var(--accent);
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .title-section .tagline {
+            font-size: 1rem;
+            color: var(--text-light);
+            margin-top: 0.75rem;
+            font-style: italic;
+        }
+
+        /* Vision Box */
+        .vision-box {
+            background: linear-gradient(135deg, var(--primary) 0%, #2c5282 100%);
+            color: white;
+            padding: 1.75rem 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .vision-box h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+
+        .vision-box p {
+            font-size: 1rem;
+            line-height: 1.7;
+            opacity: 0.95;
+        }
+
+        /* Section Headers */
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        h3 {
+            font-size: 1.05rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        /* Two Column Layout */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Feature Cards */
+        .feature-card {
+            background: var(--light-bg);
+            border-left: 4px solid var(--accent);
+            padding: 1.25rem;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .feature-card h3 {
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-card p {
+            font-size: 0.95rem;
+            color: var(--text);
+        }
+
+        /* Benefits List */
+        .benefits-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .benefits-list li {
+            padding: 0.6rem 0;
+            padding-left: 1.75rem;
+            position: relative;
+            font-size: 0.95rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .benefits-list li:last-child {
+            border-bottom: none;
+        }
+
+        .benefits-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        /* Layer Categories */
+        .layer-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .layer-category {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 1rem;
+        }
+
+        .layer-category h4 {
+            font-size: 0.9rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .layer-category ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .layer-category li {
+            font-size: 0.85rem;
+            color: var(--text);
+            padding: 0.25rem 0;
+            padding-left: 1rem;
+            position: relative;
+        }
+
+        .layer-category li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            margin: 1.5rem 0 2rem;
+        }
+
+        .timeline-item {
+            display: grid;
+            grid-template-columns: 100px 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.25rem;
+            position: relative;
+        }
+
+        .timeline-phase {
+            background: var(--primary);
+            color: white;
+            padding: 0.5rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-align: center;
+            height: fit-content;
+        }
+
+        .timeline-content {
+            padding-bottom: 1rem;
+            border-bottom: 1px dashed var(--border);
+        }
+
+        .timeline-content h4 {
+            color: var(--text);
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .timeline-content p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        /* Security Callout */
+        .security-box {
+            background: #fef3cd;
+            border: 1px solid #f0e68c;
+            border-radius: 6px;
+            padding: 1rem 1.25rem;
+            margin: 1.5rem 0;
+        }
+
+        .security-box h4 {
+            color: #856404;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .security-box p {
+            font-size: 0.9rem;
+            color: #856404;
+        }
+
+        /* Stats Row */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .stat-box {
+            text-align: center;
+            padding: 1rem;
+            background: var(--light-bg);
+            border-radius: 6px;
+        }
+
+        .stat-box .number {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .stat-box .label {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 2px solid var(--border);
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        /* Side-by-side Mockup */
+        .mockup-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .mockup-panel {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .mockup-header {
+            background: #2d3748;
+            color: white;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .mockup-header .dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .mockup-header .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .mockup-header .dot.red { background: #fc5753; }
+        .mockup-header .dot.yellow { background: #fdbc40; }
+        .mockup-header .dot.green { background: #33c748; }
+
+        .mockup-title {
+            flex: 1;
+            text-align: center;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .mockup-body {
+            background: #f8fafc;
+            height: 220px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* List View Mockup */
+        .list-mockup {
+            display: flex;
+            height: 100%;
+        }
+
+        .list-sidebar {
+            width: 70px;
+            background: #1a202c;
+            padding: 8px 6px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .sidebar-item {
+            background: #2d3748;
+            border-radius: 3px;
+            padding: 4px 6px;
+            font-size: 5px;
+            color: #a0aec0;
+        }
+
+        .sidebar-item.active {
+            background: var(--accent);
+            color: white;
+        }
+
+        .list-content {
+            flex: 1;
+            padding: 8px;
+            background: white;
+        }
+
+        .list-toolbar {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 6px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .toolbar-btn {
+            background: #edf2f7;
+            border-radius: 2px;
+            padding: 3px 8px;
+            font-size: 5px;
+            color: #4a5568;
+        }
+
+        .toolbar-btn.active {
+            background: #4a5568;
+            color: white;
+        }
+
+        .list-table {
+            width: 100%;
+        }
+
+        .table-header {
+            display: grid;
+            grid-template-columns: 30px 50px 70px 60px 40px;
+            gap: 4px;
+            padding: 3px 0;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 5px;
+            color: #718096;
+            font-weight: 600;
+        }
+
+        .table-row {
+            display: grid;
+            grid-template-columns: 30px 50px 70px 60px 40px;
+            gap: 4px;
+            padding: 4px 0;
+            border-bottom: 1px solid #f7fafc;
+            font-size: 5px;
+            color: #4a5568;
+        }
+
+        .table-row:nth-child(odd) {
+            background: #f7fafc;
+        }
+
+        .status-dot {
+            display: inline-block;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            margin-right: 2px;
+        }
+
+        .status-dot.green { background: #48bb78; }
+        .status-dot.yellow { background: #ecc94b; }
+        .status-dot.blue { background: #4299e1; }
+
+        /* Map View Mockup */
+        .map-mockup {
+            display: flex;
+            height: 100%;
+            position: relative;
+        }
+
+        .map-sidebar {
+            width: 70px;
+            background: #1a202c;
+            padding: 8px 6px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .map-main {
+            flex: 1;
+            position: relative;
+            background: 
+                linear-gradient(180deg, #b8d4e8 0%, #d4e5d8 30%, #e8dcc8 60%, #d4c8b8 100%);
+            overflow: hidden;
+        }
+
+        /* World map background shapes */
+        .map-main::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                /* Continents simplified */
+                radial-gradient(ellipse 35% 25% at 25% 40%, #9fb89f 0%, transparent 100%),
+                radial-gradient(ellipse 20% 30% at 55% 35%, #9fb89f 0%, transparent 100%),
+                radial-gradient(ellipse 15% 20% at 75% 45%, #9fb89f 0%, transparent 100%),
+                radial-gradient(ellipse 25% 15% at 35% 65%, #9fb89f 0%, transparent 100%),
+                radial-gradient(ellipse 12% 25% at 85% 70%, #9fb89f 0%, transparent 100%);
+            opacity: 0.6;
+        }
+
+        /* 10/40 Window highlight */
+        .ten-forty-window {
+            position: absolute;
+            top: 25%;
+            left: 15%;
+            right: 20%;
+            height: 30%;
+            background: rgba(192, 86, 33, 0.15);
+            border: 1px dashed rgba(192, 86, 33, 0.5);
+        }
+
+        .ten-forty-label {
+            position: absolute;
+            top: 2px;
+            left: 4px;
+            font-size: 5px;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* Map markers */
+        .map-marker {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: var(--primary);
+            border: 1px solid white;
+            border-radius: 50%;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .map-cluster {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: var(--accent);
+            border: 2px solid white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 6px;
+            font-weight: bold;
+            color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .map-cluster.medium {
+            width: 24px;
+            height: 24px;
+            font-size: 7px;
+        }
+
+        .map-cluster.large {
+            width: 28px;
+            height: 28px;
+            font-size: 8px;
+            background: #e53e3e;
+        }
+
+        /* Map popup */
+        .map-popup {
+            position: absolute;
+            background: white;
+            border-radius: 4px;
+            padding: 6px 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            font-size: 5px;
+            width: 70px;
+            z-index: 10;
+        }
+
+        .map-popup::after {
+            content: "";
+            position: absolute;
+            bottom: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-top: 4px solid white;
+        }
+
+        .popup-title {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 2px;
+        }
+
+        .popup-meta {
+            color: #718096;
+            line-height: 1.4;
+        }
+
+        .popup-btn {
+            display: block;
+            background: var(--accent);
+            color: white;
+            text-align: center;
+            padding: 2px;
+            border-radius: 2px;
+            margin-top: 3px;
+            font-size: 4px;
+        }
+
+        /* Layer panel */
+        .layer-panel {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: white;
+            border-radius: 4px;
+            padding: 6px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            font-size: 5px;
+            width: 55px;
+        }
+
+        .layer-panel-title {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 4px;
+            padding-bottom: 3px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .layer-option {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            padding: 2px 0;
+            color: #4a5568;
+        }
+
+        .layer-checkbox {
+            width: 6px;
+            height: 6px;
+            border: 1px solid #cbd5e0;
+            border-radius: 1px;
+        }
+
+        .layer-checkbox.checked {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+        /* View toggle in toolbar */
+        .view-toggle {
+            display: flex;
+            gap: 2px;
+            background: #e2e8f0;
+            padding: 2px;
+            border-radius: 3px;
+        }
+
+        .toggle-btn {
+            padding: 2px 6px;
+            font-size: 5px;
+            border-radius: 2px;
+            color: #718096;
+        }
+
+        .toggle-btn.active {
+            background: white;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Zoom controls */
+        .zoom-controls {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .zoom-btn {
+            width: 14px;
+            height: 14px;
+            background: white;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8px;
+            color: #4a5568;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+        }
+
+        /* Comparison labels */
+        .comparison-label {
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-top: 0.5rem;
+            font-weight: 500;
+        }
+
+        .comparison-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--accent);
+            margin: 0 -0.5rem;
+            align-self: center;
+        }
+
+        /* Value prop section */
+        .value-section {
+            margin-bottom: 2rem;
+        }
+
+        .value-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .value-item {
+            text-align: center;
+            padding: 1.25rem 1rem;
+        }
+
+        .value-item .icon {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .value-item h4 {
+            font-size: 0.95rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .value-item p {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-logo">MISSION PRIORITY SYSTEM</div>
+        <div class="header-date">January 2026</div>
+    </div>
+
+    <!-- Title -->
+    <div class="title-section">
+        <h1>Interactive Map View</h1>
+        <div class="subtitle">Feature Enhancement Proposal</div>
+        <div class="tagline">Visualizing Global Mission Reach Through Geographic Intelligence</div>
+    </div>
+
+    <!-- Vision -->
+    <div class="vision-box">
+        <h2>The Vision</h2>
+        <p>
+            Transform the Project List screen into a powerful geographic exploration tool that enables mission leaders 
+            to visualize project distribution, identify underserved regions, and make strategic decisions informed by 
+            demographic, religious, and accessibility data—all while maintaining security for sensitive locations.
+        </p>
+    </div>
+
+    <!-- Current State Stats -->
+    <div class="stats-row">
+        <div class="stat-box">
+            <div class="number">2,191+</div>
+            <div class="label">Active Projects</div>
+        </div>
+        <div class="stat-box">
+            <div class="number">13</div>
+            <div class="label">World Divisions</div>
+        </div>
+        <div class="stat-box">
+            <div class="number">190+</div>
+            <div class="label">Countries Served</div>
+        </div>
+    </div>
+
+    <!-- Value Proposition -->
+    <div class="value-section">
+        <h2>Strategic Value</h2>
+        <div class="value-grid">
+            <div class="value-item">
+                <div class="icon">🗺️</div>
+                <h4>Spatial Awareness</h4>
+                <p>See project distribution patterns and geographic concentration at a glance</p>
+            </div>
+            <div class="value-item">
+                <div class="icon">🎯</div>
+                <h4>Gap Identification</h4>
+                <p>Identify underserved regions with high unreached population density</p>
+            </div>
+            <div class="value-item">
+                <div class="icon">📊</div>
+                <h4>Data-Driven Decisions</h4>
+                <p>Layer demographic and religious data to inform strategic planning</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Concept Mockup - Side by Side Comparison -->
+    <h2 style="margin-top: 1rem;">Interactive Map View Concept</h2>
+    <div class="mockup-comparison no-print-break">
+        <!-- LEFT SIDE: Current List View -->
+        <div>
+            <div class="mockup-panel">
+                <div class="mockup-header">
+                    <div class="dots">
+                        <span class="dot red"></span>
+                        <span class="dot yellow"></span>
+                        <span class="dot green"></span>
+                    </div>
+                    <div class="mockup-title">Current: List View</div>
+                </div>
+                <div class="mockup-body">
+                    <div class="list-mockup">
+                        <!-- Sidebar Filters -->
+                        <div class="list-sidebar">
+                            <div class="sidebar-item">All divisions</div>
+                            <div class="sidebar-item active">All unions</div>
+                            <div class="sidebar-item">All conferences</div>
+                            <div class="sidebar-item">Workflow status</div>
+                            <div class="sidebar-item">Project types</div>
+                            <div class="sidebar-item">All tags</div>
+                            <div class="sidebar-item">All alerts</div>
+                            <div class="sidebar-item" style="margin-top: auto; background: var(--accent);">Search</div>
+                        </div>
+                        <!-- List Content -->
+                        <div class="list-content">
+                            <div class="list-toolbar">
+                                <div class="toolbar-btn">Refresh</div>
+                                <div class="toolbar-btn">Add New</div>
+                                <div style="flex:1"></div>
+                                <div class="view-toggle">
+                                    <div class="toggle-btn active">List</div>
+                                    <div class="toggle-btn">Grid</div>
+                                    <div class="toggle-btn" style="color: var(--accent); font-weight: 600;">Map</div>
+                                </div>
+                                <div class="toolbar-btn">Count: 2,191</div>
+                            </div>
+                            <div class="list-table">
+                                <div class="table-header">
+                                    <span>ID</span>
+                                    <span>Division</span>
+                                    <span>Parent Field</span>
+                                    <span>Project Name</span>
+                                    <span>Status</span>
+                                </div>
+                                <div class="table-row">
+                                    <span>2850</span>
+                                    <span>MEOC</span>
+                                    <span>ME & N. Africa Union</span>
+                                    <span>Sousse Project</span>
+                                    <span><span class="status-dot yellow"></span>Review</span>
+                                </div>
+                                <div class="table-row">
+                                    <span>2999</span>
+                                    <span>MEOC</span>
+                                    <span>ME & N. Africa Union</span>
+                                    <span>Tangiers Project</span>
+                                    <span><span class="status-dot yellow"></span>Review</span>
+                                </div>
+                                <div class="table-row">
+                                    <span>5411</span>
+                                    <span>MEOC</span>
+                                    <span>ME & N. Africa Union</span>
+                                    <span>Algiers Project</span>
+                                    <span><span class="status-dot yellow"></span>Review</span>
+                                </div>
+                                <div class="table-row">
+                                    <span>6340</span>
+                                    <span>ESD</span>
+                                    <span>East Russian Union</span>
+                                    <span>Gorno-Altaisk</span>
+                                    <span><span class="status-dot green"></span>Active</span>
+                                </div>
+                                <div class="table-row">
+                                    <span>6341</span>
+                                    <span>ESD</span>
+                                    <span>East Russian Union</span>
+                                    <span>Osinniki Church</span>
+                                    <span><span class="status-dot green"></span>Active</span>
+                                </div>
+                                <div class="table-row">
+                                    <span>5960</span>
+                                    <span>SUD</span>
+                                    <span>N. India Union</span>
+                                    <span>H4K Barasat</span>
+                                    <span><span class="status-dot blue"></span>Voting</span>
+                                </div>
+                                <div class="table-row">
+                                    <span>5452</span>
+                                    <span>TED</span>
+                                    <span>Trans-Euro Division</span>
+                                    <span>Denmark Church</span>
+                                    <span><span class="status-dot yellow"></span>Review</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="comparison-label">Tabular data with filters</div>
+        </div>
+
+        <!-- RIGHT SIDE: New Map View -->
+        <div>
+            <div class="mockup-panel">
+                <div class="mockup-header">
+                    <div class="dots">
+                        <span class="dot red"></span>
+                        <span class="dot yellow"></span>
+                        <span class="dot green"></span>
+                    </div>
+                    <div class="mockup-title">New: Map View</div>
+                </div>
+                <div class="mockup-body">
+                    <div class="map-mockup">
+                        <!-- Same Sidebar Filters -->
+                        <div class="map-sidebar">
+                            <div class="sidebar-item">All divisions</div>
+                            <div class="sidebar-item active">All unions</div>
+                            <div class="sidebar-item">All conferences</div>
+                            <div class="sidebar-item">Workflow status</div>
+                            <div class="sidebar-item">Project types</div>
+                            <div class="sidebar-item">All tags</div>
+                            <div class="sidebar-item">All alerts</div>
+                            <div class="sidebar-item" style="margin-top: auto; background: var(--accent);">Search</div>
+                        </div>
+                        <!-- Map Content -->
+                        <div class="map-main">
+                            <!-- 10/40 Window highlight -->
+                            <div class="ten-forty-window">
+                                <span class="ten-forty-label">10/40 Window</span>
+                            </div>
+
+                            <!-- Clusters in Africa/Middle East -->
+                            <div class="map-cluster large" style="top: 38%; left: 35%;">47</div>
+                            <div class="map-cluster medium" style="top: 45%; left: 28%;">23</div>
+                            
+                            <!-- Clusters in Asia -->
+                            <div class="map-cluster large" style="top: 42%; left: 58%;">89</div>
+                            <div class="map-cluster medium" style="top: 50%; left: 68%;">34</div>
+                            <div class="map-cluster" style="top: 35%; left: 72%;">12</div>
+                            
+                            <!-- Clusters in Russia -->
+                            <div class="map-cluster medium" style="top: 22%; left: 60%;">28</div>
+                            <div class="map-cluster" style="top: 25%; left: 50%;">15</div>
+                            
+                            <!-- Individual markers -->
+                            <div class="map-marker" style="top: 55%; left: 25%;"></div>
+                            <div class="map-marker" style="top: 60%; left: 30%;"></div>
+                            <div class="map-marker" style="top: 65%; left: 78%;"></div>
+                            <div class="map-marker" style="top: 58%; left: 75%;"></div>
+                            <div class="map-marker" style="top: 32%; left: 22%;"></div>
+                            <div class="map-marker" style="top: 70%; left: 35%;"></div>
+                            
+                            <!-- South America cluster -->
+                            <div class="map-cluster" style="top: 62%; left: 18%;">9</div>
+
+                            <!-- Popup example -->
+                            <div class="map-popup" style="top: 28%; left: 42%;">
+                                <div class="popup-title">Algiers Project</div>
+                                <div class="popup-meta">
+                                    MEOC Division<br>
+                                    N. Africa Region<br>
+                                    Status: Final Review
+                                </div>
+                                <div class="popup-btn">Open Project</div>
+                            </div>
+
+                            <!-- Layer Panel -->
+                            <div class="layer-panel">
+                                <div class="layer-panel-title">Layers</div>
+                                <div class="layer-option">
+                                    <div class="layer-checkbox checked"></div>
+                                    <span>Projects</span>
+                                </div>
+                                <div class="layer-option">
+                                    <div class="layer-checkbox checked"></div>
+                                    <span>10/40 Window</span>
+                                </div>
+                                <div class="layer-option">
+                                    <div class="layer-checkbox"></div>
+                                    <span>SDA Divisions</span>
+                                </div>
+                                <div class="layer-option">
+                                    <div class="layer-checkbox"></div>
+                                    <span>Population</span>
+                                </div>
+                                <div class="layer-option">
+                                    <div class="layer-checkbox"></div>
+                                    <span>UPG Density</span>
+                                </div>
+                            </div>
+
+                            <!-- Zoom Controls -->
+                            <div class="zoom-controls">
+                                <div class="zoom-btn">+</div>
+                                <div class="zoom-btn">−</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="comparison-label">Geographic visualization with same filters</div>
+        </div>
+    </div>
+    <p style="text-align: center; font-size: 0.9rem; color: var(--text-light); margin-bottom: 1.5rem; font-style: italic;">
+        Toggle seamlessly between views while maintaining filter state and project selection
+    </p>
+
+    <!-- Key Features -->
+    <h2>Key Capabilities</h2>
+    <div class="two-col">
+        <div class="feature-card no-print-break">
+            <h3>Unified View Toggle</h3>
+            <p>Seamlessly switch between the familiar grid/list view and the new map view. All filters remain synchronized—search by division, status, or project type and see results update in real-time on both views.</p>
+        </div>
+        <div class="feature-card no-print-break">
+            <h3>Smart Clustering</h3>
+            <p>With thousands of projects, intelligent clustering groups nearby markers to prevent visual overload. Zoom in to explore individual projects or zoom out to see regional patterns.</p>
+        </div>
+        <div class="feature-card no-print-break">
+            <h3>Rich Project Popups</h3>
+            <p>Click any project marker to see essential details: project name, division, current status, workflow year, and priority flags—with a direct link to open the full project record.</p>
+        </div>
+        <div class="feature-card no-print-break">
+            <h3>Contextual Data Layers</h3>
+            <p>Overlay mission-relevant data including population density, unreached people group concentrations, the 10/40 Window, and SDA organizational boundaries.</p>
+        </div>
+    </div>
+
+    <!-- Security Callout -->
+    <div class="security-box no-print-break">
+        <h4>🔒 Security-First Design</h4>
+        <p>Projects marked as sensitive locations are automatically excluded from the map view, protecting the precise coordinates of mission work in restricted regions while maintaining full functionality in the traditional list view.</p>
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- Data Layers -->
+    <h2>Exploration Layers</h2>
+    <p style="margin-bottom: 1rem; color: var(--text-light);">
+        The map will support multiple toggleable data layers to provide context for strategic decision-making:
+    </p>
+
+    <div class="layer-grid">
+        <div class="layer-category no-print-break">
+            <h4>Mission Intelligence</h4>
+            <ul>
+                <li>SDA Division & Union Boundaries</li>
+                <li>10/40 Window Highlight Zone</li>
+                <li>Unreached People Group Density</li>
+                <li>Religious/Worldview Distribution</li>
+            </ul>
+        </div>
+        <div class="layer-category no-print-break">
+            <h4>Demographics</h4>
+            <ul>
+                <li>Population Density Heatmap</li>
+                <li>UN Urban Agglomerations</li>
+                <li>GDP per Capita by Country</li>
+                <li>Language Family Regions</li>
+            </ul>
+        </div>
+        <div class="layer-category no-print-break">
+            <h4>Infrastructure</h4>
+            <ul>
+                <li>Accessibility Index (travel time)</li>
+                <li>Major Road Networks</li>
+                <li>Airports and Transportation Hubs</li>
+                <li>Administrative Boundaries</li>
+            </ul>
+        </div>
+        <div class="layer-category no-print-break">
+            <h4>Contextual Factors</h4>
+            <ul>
+                <li>Religious Persecution Index</li>
+                <li>Natural Hazard Risk Zones</li>
+                <li>Project Density Heatmap</li>
+                <li>Funding Distribution Overlay</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Benefits -->
+    <h2>Expected Benefits</h2>
+    <ul class="benefits-list">
+        <li><strong>Enhanced Strategic Planning:</strong> Leadership can visualize global reach and identify expansion opportunities through geographic analysis</li>
+        <li><strong>Improved Resource Allocation:</strong> See where funding and projects are concentrated versus underserved areas with high need</li>
+        <li><strong>Faster Decision Making:</strong> Visual patterns reveal insights that would take hours to compile from tabular data</li>
+        <li><strong>Better Stakeholder Communication:</strong> Compelling visual presentations for board meetings, donor reports, and strategic sessions</li>
+        <li><strong>Integrated Workflow:</strong> Same filters, same data, new perspective—no learning curve for existing users</li>
+    </ul>
+
+    <!-- Implementation Timeline with Costs -->
+    <h2>Implementation Roadmap & Investment</h2>
+    <div class="timeline">
+        <div class="timeline-item no-print-break">
+            <div class="timeline-phase">Phase 1</div>
+            <div class="timeline-content">
+                <h4>Core Map View <span style="color: var(--accent); font-weight: normal; font-size: 0.9rem;">— $5,100 - $6,800</span></h4>
+                <p>API endpoint, MapView component, clustering, popups, filter sync, security <span style="color: var(--text-light);">(60-80 hrs @ $85/hr)</span></p>
+            </div>
+        </div>
+        <div class="timeline-item no-print-break">
+            <div class="timeline-phase">Phase 2</div>
+            <div class="timeline-content">
+                <h4>Mission Layers <span style="color: var(--accent); font-weight: normal; font-size: 0.9rem;">— $2,550 - $3,825</span></h4>
+                <p>SDA boundaries, 10/40 Window, UPG density, religion choropleth <span style="color: var(--text-light);">(30-45 hrs @ $85/hr)</span></p>
+            </div>
+        </div>
+        <div class="timeline-item no-print-break">
+            <div class="timeline-phase">Phase 3</div>
+            <div class="timeline-content">
+                <h4>Exploratory Tools <span style="color: var(--accent); font-weight: normal; font-size: 0.9rem;">— $2,125 - $2,975</span></h4>
+                <p>Heatmaps, urban boundaries, layer panel, base map switcher <span style="color: var(--text-light);">(25-35 hrs @ $85/hr)</span></p>
+            </div>
+        </div>
+        <div class="timeline-item no-print-break">
+            <div class="timeline-phase">Phase 4</div>
+            <div class="timeline-content">
+                <h4>Advanced Analytics <span style="color: var(--accent); font-weight: normal; font-size: 0.9rem;">— $3,400 - $4,675</span></h4>
+                <p>Gap analysis, funding visualization, timeline slider, export/print <span style="color: var(--text-light);">(40-55 hrs @ $85/hr)</span></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Investment Summary -->
+    <div class="investment-summary no-print-break" style="background: var(--light-bg); border-radius: 8px; padding: 1.25rem; margin: 1.5rem 0;">
+        <h3 style="font-family: 'Playfair Display', serif; color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Total Investment Summary</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+            <div style="text-align: center; padding: 1rem; background: white; border-radius: 6px; border: 1px solid var(--border);">
+                <div style="font-size: 0.85rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem;">Conservative Scope</div>
+                <div style="font-family: 'Playfair Display', serif; font-size: 1.75rem; color: var(--primary); font-weight: 700;">$13,175</div>
+                <div style="font-size: 0.85rem; color: var(--text-light);">155 hours</div>
+            </div>
+            <div style="text-align: center; padding: 1rem; background: white; border-radius: 6px; border: 1px solid var(--border);">
+                <div style="font-size: 0.85rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem;">Comprehensive Scope</div>
+                <div style="font-family: 'Playfair Display', serif; font-size: 1.75rem; color: var(--primary); font-weight: 700;">$18,275</div>
+                <div style="font-size: 0.85rem; color: var(--text-light);">215 hours</div>
+            </div>
+        </div>
+        <p style="text-align: center; font-size: 0.85rem; color: var(--text-light); margin-top: 1rem; font-style: italic;">
+            Rate: $85/hour • Phased delivery allows evaluation of ROI before proceeding
+        </p>
+    </div>
+
+    <!-- Technical Foundation -->
+    <h2>Technical Foundation</h2>
+    <p style="margin-bottom: 1rem;">
+        This enhancement builds on existing infrastructure already in place within the Mission Priority System:
+    </p>
+    <ul class="benefits-list">
+        <li><strong>ArcGIS Integration:</strong> The system already uses ArcGIS JavaScript API for existing map widgets</li>
+        <li><strong>SDA Feature Layers:</strong> Adventist.earth ArcGIS server with division boundaries is already configured</li>
+        <li><strong>Geographic Database:</strong> Existing geo schema with urban areas, coordinates, and spatial data</li>
+        <li><strong>People Group Data:</strong> Joshua Project integration already provides unreached people demographics</li>
+        <li><strong>Location Tracking:</strong> Projects already capture latitude, longitude, and urban area references</li>
+    </ul>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>Mission Priority System &bull; Adventist Mission &bull; General Conference of Seventh-day Adventists</p>
+        <p style="margin-top: 0.5rem;"><em>Prepared January 2026</em></p>
+    </div>
+</body>
+</html>

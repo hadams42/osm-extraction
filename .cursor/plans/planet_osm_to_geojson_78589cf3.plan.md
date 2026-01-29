@@ -63,6 +63,8 @@ flowchart TD
     S3Output --> LocalDownload[Download Results]
 ```
 
+
+
 ## AWS Infrastructure (Terraform)
 
 ### Resource Summary
@@ -77,7 +79,7 @@ flowchart TD
 
 - **EC2 r5.2xlarge On-Demand**: ~$0.504/hour ($12/day)
 - **EC2 r5.2xlarge Spot**: ~$0.15-0.20/hour ($4-5/day)
-- **EBS 1TB gp3**: ~$80/month (~$3/day)
+- **EBS 1TB gp3**: ~~$80/month (~~$3/day)
 - **S3 Storage**: ~$0.023/GB/month
 - **Data Transfer**: S3 to EC2 in same region = free
 
