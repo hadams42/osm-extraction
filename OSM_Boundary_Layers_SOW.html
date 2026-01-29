@@ -389,7 +389,7 @@
     <div class="card soft">
       <div class="value">5</div>
       <div class="label">Hosted boundary layers</div>
-      <div class="mini muted" style="margin-top:0.35rem;">NUTS0–NUTS3 and LAU published separately</div>
+      <div class="mini muted" style="margin-top:0.35rem;">NUTS0–NUTS3 and LAU published separately (client‑performed Steps 4–6)</div>
     </div>
     <div class="card soft">
       <div class="value">30</div>
@@ -405,11 +405,7 @@
       <ul class="list">
         <li><strong>AWS infrastructure as code</strong> for a high‑memory processing host, storage, and permissions</li>
         <li><strong>Planet OSM → GeoJSON</strong> boundary extraction split by country and administrative level</li>
-        <li><strong>GeoJSON normalization</strong> (GeoJSONSeq <code>.geojsonl</code> → FeatureCollection <code>.geojson</code>) and optional chunking</li>
-        <li><strong>ArcGIS Pro import</strong> to an FGDB per boundary level (NUTS0–3, LAU)</li>
-        <li><strong>Hybrid attribution</strong>: OSM codes → Wikidata crosswalk → GISCO spatial fallback</li>
-        <li><strong>QA/QC + finalization</strong>: geometry repair, dissolve by code, duplicates, metrics, validation</li>
-        <li><strong>Publish to ArcGIS Online</strong> hosted feature layers with metadata and smoke tests</li>
+        <li><strong>Handoff package</strong> enabling client execution of GeoJSON normalization, FGDB build, attribution, QA/QC, and AGOL publishing (Steps 4–6)</li>
       </ul>
     </div>
     <div class="card no-print-break">
@@ -422,10 +418,20 @@
     </div>
   </div>
 
+  <div class="card soft no-print-break" style="margin-top:1rem;">
+    <h3>Client Responsibilities (Steps 4–6)</h3>
+    <div class="mini muted">Steps 4–6 are executed by the client’s team (with contractor support during the 30‑day support window as needed):</div>
+    <ul class="list">
+      <li><strong>Step 4:</strong> Normalize and stage GeoJSON for ArcGIS Pro (including chunking/merge as needed)</li>
+      <li><strong>Step 5:</strong> ArcGIS Pro FGDB build + NUTS/LAU attribution (OSM refs → Wikidata crosswalk → GISCO spatial fallback)</li>
+      <li><strong>Step 6:</strong> QA/QC, dissolve, publish hosted feature layers to ArcGIS Online, and smoke tests</li>
+    </ul>
+  </div>
+
   <div class="callout no-print-break">
     <h4>Important Assumptions</h4>
     <p>
-      The contractor will provide access to an AWS account for provisioning and an ArcGIS environment (ArcGIS Pro and
+      The client will provide access to an AWS account for provisioning and an ArcGIS environment (ArcGIS Pro and
       ArcGIS Online organization) for publishing. A single reference vintage year for GISCO/NUTS/LAU will be selected and
       used consistently for attribution and validation. Hosting and compute charges will be billed to the client at cost.
     </p>
@@ -488,7 +494,7 @@
       <div class="t-body">
         <div class="t-title">
           <h4>Normalize & stage GeoJSON for ArcGIS Pro</h4>
-          <div class="cost">16–28 hrs</div>
+          <div class="cost">Client‑performed</div>
         </div>
         <p>Convert GeoJSONSeq to ArcGIS‑importable FeatureCollections and optionally chunk/merge for large countries.</p>
         <ul>
@@ -504,7 +510,7 @@
       <div class="t-body">
         <div class="t-title">
           <h4>ArcGIS Pro FGDB build + hybrid NUTS/LAU attribution</h4>
-          <div class="cost">46–78 hrs</div>
+          <div class="cost">Client‑performed</div>
         </div>
         <p>Create clean, queryable feature classes per level and assign official codes with confidence tracking.</p>
         <ul>
@@ -520,7 +526,7 @@
       <div class="t-body">
         <div class="t-title">
           <h4>QA/QC, dissolve, publish to ArcGIS Online, and smoke tests</h4>
-          <div class="cost">34–56 hrs</div>
+          <div class="cost">Client‑performed</div>
         </div>
         <p>Finalize geometry and publish hosted layers with consistent metadata and baseline performance checks.</p>
         <ul>
@@ -537,9 +543,9 @@
     <div class="card no-print-break">
       <h3>Data Products</h3>
       <ul class="list">
-        <li><strong>FGDB workspace</strong> with feature classes: NUTS0, NUTS1, NUTS2, NUTS3, LAU</li>
-        <li><strong>ArcGIS Online hosted feature layers</strong> (one item per level) with metadata and tags</li>
-        <li><strong>Attribution audit fields</strong>: method, confidence score, and reference vintage year</li>
+        <li><strong>OSM boundary GeoJSON outputs</strong> staged for client processing (country + admin level organization)</li>
+        <li><strong>Processing handoff</strong> describing the FGDB schema, attribution approach, and QA/QC checks for client execution</li>
+        <li><strong>Client‑produced outputs (Steps 4–6)</strong>: FGDB feature classes and AGOL hosted feature layers</li>
       </ul>
     </div>
     <div class="card no-print-break">
@@ -547,17 +553,16 @@
       <ul class="list">
         <li><strong>Terraform configuration</strong> for AWS resources and repeatable deployment</li>
         <li><strong>Pipeline orchestration scripts</strong> with checkpoint/restart logic and S3 sync</li>
-        <li><strong>ArcGIS Pro notebooks/scripts</strong> for import, attribution, QA/QC, and publishing</li>
+        <li><strong>ArcGIS Pro notebooks/scripts (handoff)</strong> for client execution: import, attribution, QA/QC, and publishing</li>
       </ul>
     </div>
   </div>
 
   <h2>Acceptance Criteria</h2>
   <ul class="list">
-    <li><strong>Hosted layers exist</strong> for NUTS0, NUTS1, NUTS2, NUTS3, and LAU in ArcGIS Online</li>
-    <li><strong>Geometry is valid</strong> and layers render without errors at common web map scales</li>
-    <li><strong>Minimum field schema is present</strong> (IDs, names, country, provenance/method, match score)</li>
-    <li><strong>QA/QC summary produced</strong> (coverage counts, match statistics, and flagged low‑confidence cases)</li>
+    <li><strong>Steps 1–3 complete:</strong> infrastructure deployable and OSM → GeoJSON pipeline runs end‑to‑end with checkpointing and synced outputs</li>
+    <li><strong>Handoff complete:</strong> client has documented procedures and scripts/notebooks to execute Steps 4–6</li>
+    <li><strong>Overall outcome (client execution):</strong> client publishes hosted layers for NUTS0–NUTS3 and LAU, with issues triaged during the 30‑day support window</li>
   </ul>
 
   <div class="page-break"></div>
@@ -567,7 +572,7 @@
     <div class="grid-2" style="gap:0.75rem;">
       <div>
         <h3 style="margin-bottom:0.25rem;">Phase 1: Infrastructure setup & GIS processing</h3>
-        <div class="mini muted">End‑to‑end pipeline implementation and publication of hosted layers.</div>
+        <div class="mini muted">Infrastructure + OSM → GeoJSON pipeline implementation and handoff (client performs Steps 4–6).</div>
       </div>
       <div style="text-align:right;">
         <div class="pill"><strong>Rate:</strong> $85/hr</div>
@@ -603,29 +608,17 @@
           <td class="right">$3,400–$5,950</td>
         </tr>
         <tr>
-          <td><strong>GeoJSON normalization</strong></td>
-          <td>GeoJSONSeq → FeatureCollection conversion, chunk/merge strategy, staging layout</td>
-          <td class="right">16–28</td>
-          <td class="right">$1,360–$2,380</td>
-        </tr>
-        <tr>
-          <td><strong>ArcGIS Pro FGDB + attribution</strong></td>
-          <td>Import to FGDB, OSM ref parsing, Wikidata crosswalk build, GISCO spatial fallback with scoring</td>
-          <td class="right">46–78</td>
-          <td class="right">$3,910–$6,630</td>
-        </tr>
-        <tr>
-          <td><strong>QA/QC + publish</strong></td>
-          <td>Repair/dissolve/dedup, metrics, validation vs GISCO, publish AGOL layers, smoke tests</td>
-          <td class="right">34–56</td>
-          <td class="right">$2,890–$4,760</td>
+          <td><strong>Client execution (Steps 4–6)</strong></td>
+          <td>GeoJSON normalization, FGDB build + attribution, QA/QC, and AGOL publishing performed by client</td>
+          <td class="right">Client</td>
+          <td class="right">—</td>
         </tr>
       </tbody>
       <tfoot>
         <tr>
           <th colspan="2">Phase 1 Total</th>
-          <th class="right">160–270</th>
-          <th class="right">$13,600–$22,950</th>
+          <th class="right">64–108</th>
+          <th class="right">$5,440–$9,180</th>
         </tr>
       </tfoot>
     </table>
@@ -715,13 +708,13 @@
     <div class="budget-grid">
       <div class="budget-box">
         <div class="kicker">Conservative</div>
-        <div class="amount">$15,300</div>
-        <div class="hours">180 hours (Phase 1: 160 • Phase 2: 20)</div>
+        <div class="amount">$7,140</div>
+        <div class="hours">84 hours (Phase 1: 64 • Phase 2: 20)</div>
       </div>
       <div class="budget-box">
         <div class="kicker">Comprehensive</div>
-        <div class="amount">$26,350</div>
-        <div class="hours">310 hours (Phase 1: 270 • Phase 2: 40)</div>
+        <div class="amount">$12,580</div>
+        <div class="hours">148 hours (Phase 1: 108 • Phase 2: 40)</div>
       </div>
     </div>
     <div class="budget-note">All estimates assume $85/hour and are provided as planning ranges; actuals depend on data conditions and desired confidence thresholds.</div>
