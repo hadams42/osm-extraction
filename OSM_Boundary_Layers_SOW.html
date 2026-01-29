@@ -351,21 +351,22 @@
 <body>
   <div class="header">
     <div>
-      <div class="brand">OSM Boundary Layers Program</div>
+      <div class="brand">Political Admin Boundary Processing</div>
       <div style="margin-top:0.35rem;">
         <span class="pill"><strong>Statement of Work</strong> • OSM → GeoJSON → ArcGIS Online</span>
       </div>
     </div>
     <div class="meta">
-      <div><strong>Date:</strong> Jan 29, 2026</div>
-      <div><strong>Contractor rate:</strong> $85/hour</div>
+      <div>January 29, 2026</div>
+      <div><strong>The Infogetics Group, LLC</strong></div>
+      <div>Requested by Greg Whitsett</div>
     </div>
   </div>
 
   <div class="title">
     <h1>Authoritative Administrative Boundary Layers</h1>
     <div class="subtitle">Infrastructure + GIS Processing + 30‑Day Support</div>
-    <div class="tagline">Turning planet‑scale OSM boundaries into query‑friendly ArcGIS Online hosted feature layers</div>
+    <div class="tagline">Turning global OSM boundaries into query‑friendly ArcGIS Online hosted feature layers</div>
   </div>
 
   <div class="hero no-print-break">
@@ -417,8 +418,6 @@
         <li><strong>Custom web app development</strong> beyond layer publication and basic usability checks</li>
         <li><strong>Ongoing monthly operations</strong> beyond the defined 30‑day support window</li>
         <li><strong>Third‑party licensing</strong>, ArcGIS Pro licensing, or ArcGIS Online credit purchases</li>
-        <li><strong>Non‑Europe schemas</strong> outside the NUTS/LAU target model (additional regions can be scoped)</li>
-        <li><strong>Long‑term data governance</strong> program design (policies, stewards, committees)</li>
       </ul>
     </div>
   </div>
@@ -426,9 +425,9 @@
   <div class="callout no-print-break">
     <h4>Important Assumptions</h4>
     <p>
-      The contractor will require access to an AWS account for provisioning and an ArcGIS environment (ArcGIS Pro and
+      The contractor will provide access to an AWS account for provisioning and an ArcGIS environment (ArcGIS Pro and
       ArcGIS Online organization) for publishing. A single reference vintage year for GISCO/NUTS/LAU will be selected and
-      used consistently for attribution and validation.
+      used consistently for attribution and validation. Hosting and compute charges will be billed to the client at cost.
     </p>
   </div>
 
@@ -634,10 +633,46 @@
     <div class="callout" style="margin-top:0.9rem;">
       <h4>Pass‑through / platform costs (not contractor labor)</h4>
       <p>
-        Cloud processing runs will incur AWS charges (compute, storage, and S3). The planning estimate for a typical
-        48–72 hour run is modest (often in the tens to low hundreds of dollars depending on instance type and market),
-        but these costs vary and are billed directly by the platform provider.
+        Cloud processing runs will incur AWS charges (compute, storage, and S3). The estimates below reflect the
+        infrastructure profile described in the pipeline plan (EC2 r5.2xlarge + 1TB gp3 + S3), billed directly by AWS.
       </p>
+      <div style="margin-top:0.7rem;">
+        <table aria-label="Estimated AWS compute charges" style="background:#fff; border-radius:10px; overflow:hidden;">
+          <thead>
+            <tr>
+              <th>Cost component</th>
+              <th>Estimate</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>EC2 (r5.2xlarge) On‑Demand</strong></td>
+              <td class="right">$0.504/hour</td>
+              <td>~$12/day compute</td>
+            </tr>
+            <tr>
+              <td><strong>EC2 (r5.2xlarge) Spot</strong></td>
+              <td class="right">$0.15–$0.20/hour</td>
+              <td>Often 60–70% savings; requires interruption‑tolerant pipeline</td>
+            </tr>
+            <tr>
+              <td><strong>EBS (1TB gp3)</strong></td>
+              <td class="right">~$80/month</td>
+              <td>~$3/day while provisioned</td>
+            </tr>
+            <tr>
+              <td><strong>S3 storage</strong></td>
+              <td class="right">~$0.023/GB/month</td>
+              <td>Varies by region and retention duration</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="mini" style="margin-top:0.55rem; color:#7c2d12;">
+          <strong>Example total (48–72 hour processing run):</strong> ~<strong>$50–$100</strong> (Spot) or ~<strong>$100–$150</strong> (On‑Demand),
+          depending on spot pricing and how long resources are kept provisioned.
+        </div>
+      </div>
     </div>
   </div>
 
