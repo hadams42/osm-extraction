@@ -365,8 +365,8 @@
 
   <div class="title">
     <h1>Authoritative Administrative Boundary Layers</h1>
-    <div class="subtitle">Infrastructure + GIS Processing + 30‑Day Support</div>
-    <div class="tagline">Turning global OSM boundaries into query‑friendly ArcGIS Online hosted feature layers</div>
+    <div class="subtitle">Infrastructure + GIS Processing + 30-Day Support</div>
+    <div class="tagline">Turning global OSM boundaries into query-friendly ArcGIS Online hosted feature layers</div>
   </div>
 
   <div class="hero no-print-break">
@@ -376,7 +376,7 @@
       administrative boundary GeoJSON outputs, then transforms those outputs into an ArcGIS Pro file geodatabase (FGDB)
       and publishes separate <strong>ArcGIS Online hosted feature layers</strong> suitable for web mapping, analysis, and
       downstream application integration. The work is organized into two phases:
-      <strong>(1) Infrastructure setup and GIS processing</strong>, and <strong>(2) 30 days of post‑delivery support</strong>.
+      <strong>(1) Infrastructure setup and GIS processing</strong>, and <strong>(2) 30 days of post-delivery support</strong>.
     </p>
   </div>
 
@@ -389,7 +389,7 @@
     <div class="card soft">
       <div class="value">5</div>
       <div class="label">Hosted boundary layers</div>
-      <div class="mini muted" style="margin-top:0.35rem;">NUTS0-NUTS3 and LAU published separately (client‑performed Steps 4-6)</div>
+      <div class="mini muted" style="margin-top:0.35rem;">NUTS0-NUTS3 and LAU published separately (client-performed Steps 4-6)</div>
     </div>
     <div class="card soft">
       <div class="value">30</div>
@@ -403,7 +403,7 @@
     <div class="card accent no-print-break">
       <h3>In Scope</h3>
       <ul class="list">
-        <li><strong>AWS infrastructure as code</strong> for a high‑memory processing host, storage, and permissions</li>
+        <li><strong>AWS infrastructure as code</strong> for a high-memory processing host, storage, and permissions</li>
         <li><strong>Planet OSM → GeoJSON</strong> boundary extraction split by country and administrative level</li>
         <li><strong>Handoff package</strong> enabling client execution of GeoJSON normalization, FGDB build, attribution, QA/QC, and AGOL publishing (Steps 4-6)</li>
       </ul>
@@ -412,15 +412,15 @@
       <h3>Out of Scope (unless added by change order)</h3>
       <ul class="list" style="margin-top:0;">
         <li><strong>Custom web app development</strong> beyond layer publication and basic usability checks</li>
-        <li><strong>Ongoing monthly operations</strong> beyond the defined 30‑day support window</li>
-        <li><strong>Third‑party licensing</strong>, ArcGIS Pro licensing, or ArcGIS Online credit purchases</li>
+        <li><strong>Ongoing monthly operations</strong> beyond the defined 30-day support window</li>
+        <li><strong>Third-party licensing</strong>, ArcGIS Pro licensing, or ArcGIS Online credit purchases</li>
       </ul>
     </div>
   </div>
 
   <div class="card soft no-print-break" style="margin-top:1rem;">
     <h3>Client Responsibilities (Steps 4-6)</h3>
-    <div class="mini muted">Steps 4-6 are executed by the client's team (with contractor support during the 30‑day support window as needed):</div>
+    <div class="mini muted">Steps 4-6 are executed by the client's team (with contractor support during the 30-day support window as needed):</div>
     <ul class="list">
       <li><strong>Step 4:</strong> Normalize and stage GeoJSON for ArcGIS Pro (including chunking/merge as needed)</li>
       <li><strong>Step 5:</strong> ArcGIS Pro FGDB build + NUTS/LAU attribution (OSM refs → Wikidata crosswalk → GISCO spatial fallback)</li>
@@ -439,7 +439,7 @@
 
   <div class="page-break"></div>
 
-  <h2>High‑Level Implementation Plan</h2>
+  <h2>High-Level Implementation Plan</h2>
   <div class="timeline">
     <div class="t-item no-print-break">
       <div class="t-tag">Step 1</div>
@@ -464,9 +464,9 @@
           <h4>Infrastructure setup (AWS, security, cost controls)</h4>
           <div class="cost">4-6 hrs</div>
         </div>
-        <p>Provision a repeatable environment sized for global‑scale OSM processing with safe defaults.</p>
+        <p>Provision a repeatable environment sized for global-scale OSM processing with safe defaults.</p>
         <ul>
-          <li>Terraform for VPC/Security Group, EC2 (memory‑optimized), EBS, S3, IAM role/policies</li>
+          <li>Terraform for VPC/Security Group, EC2 (memory-optimized), EBS, S3, IAM role/policies</li>
           <li>Bootstrap script to install osmium, Python deps, and attach/mount data volume</li>
           <li>Operational guardrails (lifecycle cleanup, teardown guidance)</li>
         </ul>
@@ -483,7 +483,7 @@
         <p>Implement a checkpointed pipeline that can resume across interruptions and sync outputs continuously.</p>
         <ul>
           <li>Filter administrative boundary relations and extract country polygons</li>
-          <li>Per‑country extraction and per‑level exports (GeoJSONSeq <code>.geojsonl</code>)</li>
+          <li>Per-country extraction and per-level exports (GeoJSONSeq <code>.geojsonl</code>)</li>
           <li>Orchestrator with <code>checkpoint.json</code>, logging, retries, and periodic S3 sync</li>
         </ul>
       </div>
@@ -494,9 +494,9 @@
       <div class="t-body">
         <div class="t-title">
           <h4>Normalize & stage GeoJSON for ArcGIS Pro</h4>
-          <div class="cost">Client‑performed</div>
+          <div class="cost">Client-performed</div>
         </div>
-        <p>Convert GeoJSONSeq to ArcGIS‑importable FeatureCollections and optionally chunk/merge for large countries.</p>
+        <p>Convert GeoJSONSeq to ArcGIS-importable FeatureCollections and optionally chunk/merge for large countries.</p>
         <ul>
           <li><code>.geojsonl</code> → <code>.geojson</code> FeatureCollection conversion</li>
           <li>Optional chunking for very large files and repeatable merge strategy</li>
@@ -510,13 +510,13 @@
       <div class="t-body">
         <div class="t-title">
           <h4>ArcGIS Pro FGDB build + hybrid NUTS/LAU attribution</h4>
-          <div class="cost">Client‑performed</div>
+          <div class="cost">Client-performed</div>
         </div>
         <p>Create clean, queryable feature classes per level and assign official codes with confidence tracking.</p>
         <ul>
           <li>ArcGIS Pro import via JSON To Features into FGDB (one feature class per level)</li>
           <li>Attribution priority: OSM refs (<code>ref:nuts</code>/<code>ref:lau</code>) → Wikidata crosswalk → GISCO overlap match</li>
-          <li>Record method and match score; flag low‑confidence matches for review</li>
+          <li>Record method and match score; flag low-confidence matches for review</li>
         </ul>
       </div>
     </div>
@@ -526,7 +526,7 @@
       <div class="t-body">
         <div class="t-title">
           <h4>QA/QC, dissolve, publish to ArcGIS Online, and smoke tests</h4>
-          <div class="cost">Client‑performed</div>
+          <div class="cost">Client-performed</div>
         </div>
         <p>Finalize geometry and publish hosted layers with consistent metadata and baseline performance checks.</p>
         <ul>
@@ -545,7 +545,7 @@
       <ul class="list">
         <li><strong>OSM boundary GeoJSON outputs</strong> staged for client processing (country + admin level organization)</li>
         <li><strong>Processing handoff</strong> describing the FGDB schema, attribution approach, and QA/QC checks for client execution</li>
-        <li><strong>Client‑produced outputs (Steps 4-6)</strong>: FGDB feature classes and AGOL hosted feature layers</li>
+        <li><strong>Client-produced outputs (Steps 4-6)</strong>: FGDB feature classes and AGOL hosted feature layers</li>
       </ul>
     </div>
     <div class="card no-print-break">
@@ -560,9 +560,9 @@
 
   <h2>Acceptance Criteria</h2>
   <ul class="list">
-    <li><strong>Steps 1-3 complete:</strong> infrastructure deployable and OSM → GeoJSON pipeline runs end‑to‑end with checkpointing and synced outputs</li>
+    <li><strong>Steps 1-3 complete:</strong> infrastructure deployable and OSM → GeoJSON pipeline runs end-to-end with checkpointing and synced outputs</li>
     <li><strong>Handoff complete:</strong> client has documented procedures and scripts/notebooks to execute Steps 4-6</li>
-    <li><strong>Overall outcome (client execution):</strong> client publishes hosted layers for NUTS0-NUTS3 and LAU, with issues triaged during the 30‑day support window</li>
+    <li><strong>Overall outcome (client execution):</strong> client publishes hosted layers for NUTS0-NUTS3 and LAU, with issues triaged during the 30-day support window</li>
   </ul>
 
   <div class="page-break"></div>
@@ -624,7 +624,7 @@
     </table>
 
     <div class="callout" style="margin-top:0.9rem;">
-      <h4>Pass‑through / platform costs (not contractor labor)</h4>
+      <h4>Pass-through / platform costs (not contractor labor)</h4>
       <p>
         Cloud processing runs will incur AWS charges (compute, storage, and S3). The estimates below reflect the
         infrastructure profile described in the pipeline plan (EC2 r5.2xlarge + 1TB gp3 + S3), billed directly by AWS.
@@ -640,14 +640,14 @@
           </thead>
           <tbody>
             <tr>
-              <td><strong>EC2 (r5.2xlarge) On‑Demand</strong></td>
+              <td><strong>EC2 (r5.2xlarge) On-Demand</strong></td>
               <td class="right">$0.504/hour</td>
               <td>~$12/day compute</td>
             </tr>
             <tr>
               <td><strong>EC2 (r5.2xlarge) Spot</strong></td>
               <td class="right">$0.15-$0.20/hour</td>
-              <td>Often 60-70% savings; requires interruption‑tolerant pipeline</td>
+              <td>Often 60-70% savings; requires interruption-tolerant pipeline</td>
             </tr>
             <tr>
               <td><strong>EBS (1TB gp3)</strong></td>
@@ -662,7 +662,7 @@
           </tbody>
         </table>
         <div class="mini" style="margin-top:0.55rem; color:#7c2d12;">
-          <strong>Example total (48-72 hour processing run):</strong> ~<strong>$50-$100</strong> (Spot) or ~<strong>$100-$150</strong> (On‑Demand),
+          <strong>Example total (48-72 hour processing run):</strong> ~<strong>$50-$100</strong> (Spot) or ~<strong>$100-$150</strong> (On-Demand),
           depending on spot pricing and how long resources are kept provisioned.
         </div>
       </div>
