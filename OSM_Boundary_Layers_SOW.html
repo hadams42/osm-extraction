@@ -372,7 +372,7 @@
   <div class="hero no-print-break">
     <h2>Executive Summary</h2>
     <p>
-      This engagement delivers a repeatable, restartable pipeline that converts the <strong>planet OSM PBF</strong> into
+      This engagement delivers a repeatable, restartable pipeline that converts the <strong>global OSM PBF</strong> into
       administrative boundary GeoJSON outputs, then transforms those outputs into an ArcGIS Pro file geodatabase (FGDB)
       and publishes separate <strong>ArcGIS Online hosted feature layers</strong> suitable for web mapping, analysis, and
       downstream application integration. The work is organized into two phases:
@@ -389,7 +389,7 @@
     <div class="card soft">
       <div class="value">5</div>
       <div class="label">Hosted boundary layers</div>
-      <div class="mini muted" style="margin-top:0.35rem;">NUTS0–NUTS3 and LAU published separately (client‑performed Steps 4–6)</div>
+      <div class="mini muted" style="margin-top:0.35rem;">NUTS0-NUTS3 and LAU published separately (client‑performed Steps 4-6)</div>
     </div>
     <div class="card soft">
       <div class="value">30</div>
@@ -405,7 +405,7 @@
       <ul class="list">
         <li><strong>AWS infrastructure as code</strong> for a high‑memory processing host, storage, and permissions</li>
         <li><strong>Planet OSM → GeoJSON</strong> boundary extraction split by country and administrative level</li>
-        <li><strong>Handoff package</strong> enabling client execution of GeoJSON normalization, FGDB build, attribution, QA/QC, and AGOL publishing (Steps 4–6)</li>
+        <li><strong>Handoff package</strong> enabling client execution of GeoJSON normalization, FGDB build, attribution, QA/QC, and AGOL publishing (Steps 4-6)</li>
       </ul>
     </div>
     <div class="card no-print-break">
@@ -419,8 +419,8 @@
   </div>
 
   <div class="card soft no-print-break" style="margin-top:1rem;">
-    <h3>Client Responsibilities (Steps 4–6)</h3>
-    <div class="mini muted">Steps 4–6 are executed by the client’s team (with contractor support during the 30‑day support window as needed):</div>
+    <h3>Client Responsibilities (Steps 4-6)</h3>
+    <div class="mini muted">Steps 4-6 are executed by the client's team (with contractor support during the 30‑day support window as needed):</div>
     <ul class="list">
       <li><strong>Step 4:</strong> Normalize and stage GeoJSON for ArcGIS Pro (including chunking/merge as needed)</li>
       <li><strong>Step 5:</strong> ArcGIS Pro FGDB build + NUTS/LAU attribution (OSM refs → Wikidata crosswalk → GISCO spatial fallback)</li>
@@ -446,7 +446,7 @@
       <div class="t-body">
         <div class="t-title">
           <h4>Confirm inputs, naming, and reference datasets</h4>
-          <div class="cost">6–10 hrs</div>
+          <div class="cost">5-8 hrs</div>
         </div>
         <p>Lock decisions that prevent rework later (file conventions, GISCO vintage, publishing titles, and field model).</p>
         <ul>
@@ -462,9 +462,9 @@
       <div class="t-body">
         <div class="t-title">
           <h4>Infrastructure setup (AWS, security, cost controls)</h4>
-          <div class="cost">18–28 hrs</div>
+          <div class="cost">4-6 hrs</div>
         </div>
-        <p>Provision a repeatable environment sized for planet‑scale OSM processing with safe defaults.</p>
+        <p>Provision a repeatable environment sized for global‑scale OSM processing with safe defaults.</p>
         <ul>
           <li>Terraform for VPC/Security Group, EC2 (memory‑optimized), EBS, S3, IAM role/policies</li>
           <li>Bootstrap script to install osmium, Python deps, and attach/mount data volume</li>
@@ -477,8 +477,8 @@
       <div class="t-tag">Step 3</div>
       <div class="t-body">
         <div class="t-title">
-          <h4>Planet OSM → GeoJSON boundary pipeline (restartable)</h4>
-          <div class="cost">40–70 hrs</div>
+          <h4>Global OSM → GeoJSON boundary pipeline (restartable)</h4>
+          <div class="cost">8-14 hrs</div>
         </div>
         <p>Implement a checkpointed pipeline that can resume across interruptions and sync outputs continuously.</p>
         <ul>
@@ -532,7 +532,7 @@
         <ul>
           <li>Repair geometry, multipart handling, deduplication, dissolve by code, compute area/perimeter</li>
           <li>Validate coverage and counts vs GISCO and generate match statistics</li>
-          <li>Publish AGOL items (NUTS0–3, LAU), set sharing, and run query/render smoke tests</li>
+          <li>Publish AGOL items (NUTS0-3, LAU), set sharing, and run query/render smoke tests</li>
         </ul>
       </div>
     </div>
@@ -545,7 +545,7 @@
       <ul class="list">
         <li><strong>OSM boundary GeoJSON outputs</strong> staged for client processing (country + admin level organization)</li>
         <li><strong>Processing handoff</strong> describing the FGDB schema, attribution approach, and QA/QC checks for client execution</li>
-        <li><strong>Client‑produced outputs (Steps 4–6)</strong>: FGDB feature classes and AGOL hosted feature layers</li>
+        <li><strong>Client‑produced outputs (Steps 4-6)</strong>: FGDB feature classes and AGOL hosted feature layers</li>
       </ul>
     </div>
     <div class="card no-print-break">
@@ -560,9 +560,9 @@
 
   <h2>Acceptance Criteria</h2>
   <ul class="list">
-    <li><strong>Steps 1–3 complete:</strong> infrastructure deployable and OSM → GeoJSON pipeline runs end‑to‑end with checkpointing and synced outputs</li>
-    <li><strong>Handoff complete:</strong> client has documented procedures and scripts/notebooks to execute Steps 4–6</li>
-    <li><strong>Overall outcome (client execution):</strong> client publishes hosted layers for NUTS0–NUTS3 and LAU, with issues triaged during the 30‑day support window</li>
+    <li><strong>Steps 1-3 complete:</strong> infrastructure deployable and OSM → GeoJSON pipeline runs end‑to‑end with checkpointing and synced outputs</li>
+    <li><strong>Handoff complete:</strong> client has documented procedures and scripts/notebooks to execute Steps 4-6</li>
+    <li><strong>Overall outcome (client execution):</strong> client publishes hosted layers for NUTS0-NUTS3 and LAU, with issues triaged during the 30‑day support window</li>
   </ul>
 
   <div class="page-break"></div>
@@ -572,7 +572,7 @@
     <div class="grid-2" style="gap:0.75rem;">
       <div>
         <h3 style="margin-bottom:0.25rem;">Phase 1: Infrastructure setup & GIS processing</h3>
-        <div class="mini muted">Infrastructure + OSM → GeoJSON pipeline implementation and handoff (client performs Steps 4–6).</div>
+        <div class="mini muted">Infrastructure + OSM → GeoJSON pipeline implementation and handoff (client performs Steps 4-6).</div>
       </div>
       <div style="text-align:right;">
         <div class="pill"><strong>Rate:</strong> $85/hr</div>
@@ -583,7 +583,7 @@
       <thead>
         <tr>
           <th>Workstream</th>
-          <th>What’s included</th>
+          <th>What's included</th>
           <th class="right">Hours (range)</th>
           <th class="right">Cost (range)</th>
         </tr>
@@ -592,23 +592,23 @@
         <tr>
           <td><strong>Discovery & design</strong></td>
           <td>Inputs/outputs, GISCO vintage selection, naming conventions, minimum schema, thresholds</td>
-          <td class="right">6–10</td>
-          <td class="right">$510–$850</td>
+          <td class="right">5-8</td>
+          <td class="right">$425-$680</td>
         </tr>
         <tr>
           <td><strong>AWS infrastructure</strong></td>
           <td>Terraform + bootstrap (EC2/EBS/S3/IAM), security posture, cost guardrails</td>
-          <td class="right">18–28</td>
-          <td class="right">$1,530–$2,380</td>
+          <td class="right">4-6</td>
+          <td class="right">$340-$510</td>
         </tr>
         <tr>
           <td><strong>OSM extraction pipeline</strong></td>
-          <td>Planet processing stages, checkpointing, logs, retries, S3 sync, runbook</td>
-          <td class="right">40–70</td>
-          <td class="right">$3,400–$5,950</td>
+          <td>Global processing stages, checkpointing, logs, retries, S3 sync, runbook</td>
+          <td class="right">8-14</td>
+          <td class="right">$680-$1,190</td>
         </tr>
         <tr>
-          <td><strong>Client execution (Steps 4–6)</strong></td>
+          <td><strong>Client execution (Steps 4-6)</strong></td>
           <td>GeoJSON normalization, FGDB build + attribution, QA/QC, and AGOL publishing performed by client</td>
           <td class="right">Client</td>
           <td class="right">—</td>
@@ -617,8 +617,8 @@
       <tfoot>
         <tr>
           <th colspan="2">Phase 1 Total</th>
-          <th class="right">64–108</th>
-          <th class="right">$5,440–$9,180</th>
+          <th class="right">17-28</th>
+          <th class="right">$1,445-$2,380</th>
         </tr>
       </tfoot>
     </table>
@@ -646,8 +646,8 @@
             </tr>
             <tr>
               <td><strong>EC2 (r5.2xlarge) Spot</strong></td>
-              <td class="right">$0.15–$0.20/hour</td>
-              <td>Often 60–70% savings; requires interruption‑tolerant pipeline</td>
+              <td class="right">$0.15-$0.20/hour</td>
+              <td>Often 60-70% savings; requires interruption‑tolerant pipeline</td>
             </tr>
             <tr>
               <td><strong>EBS (1TB gp3)</strong></td>
@@ -662,7 +662,7 @@
           </tbody>
         </table>
         <div class="mini" style="margin-top:0.55rem; color:#7c2d12;">
-          <strong>Example total (48–72 hour processing run):</strong> ~<strong>$50–$100</strong> (Spot) or ~<strong>$100–$150</strong> (On‑Demand),
+          <strong>Example total (48-72 hour processing run):</strong> ~<strong>$50-$100</strong> (Spot) or ~<strong>$100-$150</strong> (On‑Demand),
           depending on spot pricing and how long resources are kept provisioned.
         </div>
       </div>
@@ -677,7 +677,7 @@
       <thead>
         <tr>
           <th>Support scope</th>
-          <th>What’s included</th>
+          <th>What's included</th>
           <th class="right">Hours (range)</th>
           <th class="right">Cost (range)</th>
         </tr>
@@ -689,15 +689,15 @@
             Triage and fixes for defects, rerun guidance, minor adjustments to thresholds/joins, publishing help, and handoff Q&A.
             <br /><small>Excludes major new features; those are handled via change order.</small>
           </td>
-          <td class="right">20–40</td>
-          <td class="right">$1,700–$3,400</td>
+          <td class="right">4-8</td>
+          <td class="right">$340-$680</td>
         </tr>
       </tbody>
       <tfoot>
         <tr>
           <th colspan="2">Phase 2 Total</th>
-          <th class="right">20–40</th>
-          <th class="right">$1,700–$3,400</th>
+          <th class="right">4-8</th>
+          <th class="right">$340-$680</th>
         </tr>
       </tfoot>
     </table>
@@ -705,16 +705,11 @@
 
   <div class="card no-print-break" style="margin-top:1rem;">
     <h3>Total Contractor Budget Summary</h3>
-    <div class="budget-grid">
+    <div class="budget-grid" style="grid-template-columns: 1fr;">
       <div class="budget-box">
-        <div class="kicker">Conservative</div>
-        <div class="amount">$7,140</div>
-        <div class="hours">84 hours (Phase 1: 64 • Phase 2: 20)</div>
-      </div>
-      <div class="budget-box">
-        <div class="kicker">Comprehensive</div>
-        <div class="amount">$12,580</div>
-        <div class="hours">148 hours (Phase 1: 108 • Phase 2: 40)</div>
+        <div class="kicker">Total range</div>
+        <div class="amount">$1,785-$3,060</div>
+        <div class="hours">21-36 hours (Phase 1: 17-28 • Phase 2: 4-8)</div>
       </div>
     </div>
     <div class="budget-note">All estimates assume $85/hour and are provided as planning ranges; actuals depend on data conditions and desired confidence thresholds.</div>
@@ -731,7 +726,7 @@
       </ul>
     </div>
     <div class="card no-print-break">
-      <h3>Artifacts</h3>
+      <h3>Artifacts (if requested)</h3>
       <ul class="list">
         <li><strong>Runbook:</strong> how to deploy, run, resume, and tear down processing</li>
         <li><strong>Publishing checklist:</strong> metadata, sharing, performance smoke tests</li>
