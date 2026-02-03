@@ -405,6 +405,7 @@
       <ul class="list">
         <li><strong>AWS infrastructure as code</strong> for a high-memory processing host, storage, and permissions</li>
         <li><strong>Planet OSM → GeoJSON</strong> boundary extraction split by country and administrative level</li>
+        <li><strong>ArcGIS Pro workstation on AWS (GPU)</strong> install and configuration for client use to execute Phases 4-6 (remote access enabled)</li>
         <li><strong>Handoff package</strong> enabling client execution of GeoJSON normalization, FGDB build, attribution, QA/QC, and AGOL publishing (Phases 4-6)</li>
       </ul>
     </div>
@@ -422,6 +423,7 @@
     <h3>Client Responsibilities (Phases 4-6)</h3>
     <div class="mini muted">Phases 4-6 are executed by the client's team (with contractor support during the 30-day support window as needed):</div>
     <ul class="list">
+      <li><strong>AWS ArcGIS Pro workstation usage:</strong> Client uses the AWS graphics compute workstation with ArcGIS Pro to perform Phases 4-6 (including ArcGIS licensing/sign-in and access control)</li>
       <li><strong>Phase 4:</strong> Normalize and stage GeoJSON for ArcGIS Pro (including chunking/merge as needed)</li>
       <li><strong>Phase 5:</strong> ArcGIS Pro FGDB build + NUTS/LAU attribution (OSM refs → Wikidata crosswalk → spatial fallback)</li>
       <li><strong>Phase 6:</strong> QA/QC, dissolve, publish hosted feature layers to ArcGIS Online, and smoke tests</li>
@@ -433,7 +435,7 @@
     <p>
       The client will provide access to an AWS account for provisioning and an ArcGIS environment (ArcGIS Pro and
       ArcGIS Online organization) for publishing. A single reference vintage year for admin boundaries will be selected and
-      used consistently for attribution and validation. Hosting and compute charges will be billed to the client at cost.
+      used consistently for attribution and validation. Hosting and compute charges (including the AWS GPU workstation used for ArcGIS Pro) will be billed to the client at cost. <b>Important Note: Once this AWS infrastructure is created, the client will easily be able to leverage it for other projects.</b>
     </p>
   </div>
 
@@ -462,13 +464,15 @@
       <div class="t-body">
         <div class="t-title">
           <h4>Infrastructure setup (AWS, security, cost controls)</h4>
-          <div class="cost">4-6 hrs</div>
+          <div class="cost">6-8 hrs</div>
         </div>
-        <p>Provision a repeatable environment sized for global-scale OSM processing with safe defaults.</p>
+        <p>Provision a repeatable AWS environment for OSM processing and a client-accessible ArcGIS Pro workstation.</p>
         <ul>
           <li>Terraform for VPC/Security Group, EC2 (memory-optimized), EBS, S3, IAM role/policies</li>
-          <li>Bootstrap script to install osmium, Python deps, and attach/mount data volume</li>
-          <li>Operational guardrails (lifecycle cleanup, teardown guidance)</li>
+          <li>Provision an AWS graphics compute (GPU) workstation (Windows) for ArcGIS Pro client use</li>
+          <li>Install and configure ArcGIS Pro on the GPU workstation; enable secure remote access for the client</li>
+          <li>Bootstrap the processing host (osmium, Python deps, mount/format data volume) and validate S3 access</li>
+          <li>Operational guardrails: logging paths, lifecycle cleanup, and teardown guidance</li>
         </ul>
       </div>
     </div>
@@ -480,11 +484,13 @@
           <h4>Global OSM → GeoJSON boundary pipeline (restartable)</h4>
           <div class="cost">8-14 hrs</div>
         </div>
-        <p>Implement a checkpointed pipeline that can resume across interruptions and sync outputs continuously.</p>
+        <p>Implement a checkpointed pipeline that can resume across interruptions and continuously sync outputs.</p>
         <ul>
+          <li>Upload <code>planet-latest.osm.pbf</code> to S3; download to the processing host’s data volume</li>
           <li>Filter administrative boundary relations and extract country polygons</li>
           <li>Per-country extraction and per-level exports (GeoJSONSeq <code>.geojsonl</code>)</li>
-          <li>Orchestrator with <code>checkpoint.json</code>, logging, retries, and periodic S3 sync</li>
+          <li>Orchestrator with <code>checkpoint.json</code>, logging, retries, and periodic S3 sync of results</li>
+          <li>Teardown/runbook: sync final outputs, then deprovision AWS resources to avoid ongoing charges</li>
         </ul>
       </div>
     </div>
@@ -498,6 +504,7 @@
         </div>
         <p>Convert GeoJSONSeq to ArcGIS-importable FeatureCollections and optionally chunk/merge for large countries.</p>
         <ul>
+          <li>Use the AWS ArcGIS Pro GPU workstation to run the client processing steps</li>
           <li><code>.geojsonl</code> → <code>.geojson</code> FeatureCollection conversion</li>
           <li>Optional chunking for very large files and repeatable merge strategy</li>
           <li>Documented staging layout for import runs</li>
@@ -598,8 +605,8 @@
         <tr>
           <td><strong>AWS infrastructure</strong></td>
           <td>Terraform + bootstrap (EC2/EBS/S3/IAM), security posture, cost guardrails</td>
-          <td class="right">4-6</td>
-          <td class="right">$340-$510</td>
+          <td class="right">6-8</td>
+          <td class="right">$510-$680</td>
         </tr>
         <tr>
           <td><strong>OSM extraction pipeline</strong></td>
@@ -617,8 +624,8 @@
       <tfoot>
         <tr>
           <th colspan="2">Phase 1 Total</th>
-          <th class="right">17-28</th>
-          <th class="right">$1,445-$2,380</th>
+          <th class="right">19-30</th>
+          <th class="right">$1,615-$2,550</th>
         </tr>
       </tfoot>
     </table>
@@ -704,15 +711,15 @@
   </div>
 
   <div class="card no-print-break" style="margin-top:1rem;">
-    <h3>Total Contractor Budget Summary</h3>
+    <h3>Total Budget</h3>
     <div class="budget-grid" style="grid-template-columns: 1fr;">
       <div class="budget-box">
         <div class="kicker">Total range</div>
-        <div class="amount">$1,785-$3,060</div>
-        <div class="hours">21-36 hours (Phase 1: 17-28 • Phase 2: 4-8)</div>
+        <div class="amount">$1,955-$3,230</div>
+        <div class="hours">23-38 hours</div>
       </div>
     </div>
-    <div class="budget-note">All estimates assume $85/hour and are provided as planning ranges; actuals depend on data conditions and desired confidence thresholds.</div>
+    <div class="budget-note">All estimates assume $85/hour and are provided as planning ranges; actuals depend on data conditions and desired confidence thresholds. Any overage hours will be deducated from client's annual maintenance contract.</div>
   </div>
 
   <h2>Project Management & Communications</h2>
